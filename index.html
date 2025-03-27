@@ -8,7 +8,15 @@
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
 
-        gtag('config', 'G-9DYP2WMCTF');
+        // 配置第一个数据流
+        gtag('config', 'G-9DYP2WMCTF', {
+            'send_page_view': true
+        });
+        
+        // 配置第二个数据流
+        gtag('config', 'G-75HGQ7HQFF', {
+            'send_page_view': true
+        });
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
