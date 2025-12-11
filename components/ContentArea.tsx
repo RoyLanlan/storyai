@@ -65,8 +65,15 @@ export default function ContentArea({ selectedModule, onOpenSettings }: ContentA
         })
 
         if (!response.ok) {
-          const errorData = await response.json()
-          throw new Error(errorData.error || '生成失败')
+          let message = '生成失败'
+          try {
+            const errorText = await response.text()
+            const errorData = JSON.parse(errorText)
+            message = errorData.error || errorData.message || message
+          } catch {
+            // ignore parse error, use fallback
+          }
+          throw new Error(message)
         }
 
         const reader = response.body?.getReader()

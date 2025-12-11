@@ -1,5 +1,6 @@
 import { NextRequest } from 'next/server'
 import { getModuleById } from '@/lib/modules'
+export const runtime = 'edge';
 
 export async function POST(request: NextRequest) {
   try {
