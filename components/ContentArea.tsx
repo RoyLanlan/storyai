@@ -79,6 +79,7 @@ export default function ContentArea({ selectedModule, onOpenSettings }: ContentA
         const reader = response.body?.getReader()
         const decoder = new TextDecoder()
         let content = ''
+        let buffer = ''
 
         if (!reader) {
           throw new Error('无法读取响应流')
@@ -90,7 +91,10 @@ export default function ContentArea({ selectedModule, onOpenSettings }: ContentA
           if (done) break
 
           const chunk = decoder.decode(value, { stream: true })
-          const lines = chunk.split('\n')
+          buffer += chunk
+          const lines = buffer.split('\n')
+          // 保留最后一行的残余，等待下一次补全
+          buffer = lines.pop() || ''
 
           for (const line of lines) {
             const trimmedLine = line.trim()

@@ -102,6 +102,7 @@ export async function POST(request: NextRequest) {
       async start(controller) {
         const reader = response.body?.getReader()
         const decoder = new TextDecoder()
+        let buffer = ''
 
         if (!reader) {
           controller.close()
@@ -118,7 +119,10 @@ export async function POST(request: NextRequest) {
             }
 
             const chunk = decoder.decode(value, { stream: true })
-            const lines = chunk.split('\n')
+            buffer += chunk
+            const lines = buffer.split('\n')
+            // 留下最后一行的残余，等待下一次补全
+            buffer = lines.pop() || ''
 
             for (const line of lines) {
               const trimmedLine = line.trim()
